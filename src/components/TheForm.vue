@@ -1,18 +1,21 @@
 <template>
     <form @submit.prevent="submitForm" class="max-w-2xl p-8 mx-2 rounded-xl shadow-[0_2px_8px_rgba(3,33,73,0.26)] bg-white mb-8 md:mx-auto ">
         <div class="my-3 mx-0">
-            <div>
+            <div :class="{invalid: firstNameValidity === 'invalid'}">
                 <label for="first-name" class="font-bold ">First Name <span class="text-red-500">*</span></label>
-                <input type="text" id="first-name" name="first-name" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit] " v-model="firstName">
+                <input type="text" id="first-name" name="first-name" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit] " v-model.trim="firstName" @blur="validateInput">
+                <p v-if="firstNameValidity === 'invalid'">Please enter a valid name</p>
             </div>
-            <div>
+            <div :class="{invalid: lastNameValidity === 'invalid'}">
                 <label for="last-name" class="font-bold">Last Name <span class="text-red-500">*</span></label>
-                <input type="text" id="last-name" name="last-name" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit]" v-model="lastName">
+                <input type="text" id="last-name" name="last-name" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit]" v-model.trim="lastName" @blur="validateInput">
+                  <p v-if="lastNameValidity === 'invalid'">Please enter a valid name</p>
             </div>
         </div>
-        <div class="my-3 mx-0">
+        <div class="my-3 mx-0" :class="{invalid: ageValidity === 'invalid'}">
             <label for="age" class="font-bold">Age <span class="text-red-500">*</span></label>
-            <input type="number" id="age" name="age" v-model="userAge" ref="ageInput" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit]">
+            <input type="number" id="age" name="age" v-model.trim="userAge" @blur="validateInput" ref="ageInput" class="border border-gray-300 p-2 w-full block mt-2 font-[inherit]">
+              <p v-if="ageValidity === 'invalid'">Please enter a valid name</p>
         </div>
         <div class="my-3 mx-0">
             <h2 class="text-base my-2 mx-0 font-bold">Are you attending? <span class="text-red-500">*</span></h2>
@@ -77,6 +80,10 @@
                 attendingGuest: 'yes',
                 confirm: false,
                 extraGuest: null,
+                firstNameValidity: 'pending',
+                lastNameValidity: 'pending',
+                ageValidity: 'pending',
+
             }
         },
         methods: {
@@ -102,7 +109,35 @@
                 console.log('Bringing A Guest?')
                 console.log(this.extraGuest)
                 
+            }, 
+            validateInput(){
+                if(this.firstName === ''){
+                    this.firstNameValidity = 'invalid'
+                } else {
+                    this.firstNameValidity = 'valid'
+                }
+
+                if(this.lastName === ''){
+                    this.lastNameValidity = 'invalid'
+                } else {
+                    this.lastNameValidity = 'valid'
+                }
+
+                if(this.userAge === null){
+                    this.ageValidity = 'invalid'
+                } else {
+                    this.ageValidity = 'valid'
+                }
             }
         }
     }
 </script>
+
+<style scoped>
+    .invalid input{
+         border-color: red;
+    }
+    .invalid label {
+        color: red;
+    }
+</style>
