@@ -41,8 +41,8 @@
             </div>
         </div>
         <div class="my-3 mx-0">
-            <label for="guest" class="font-bold block">Are you bringing a guest? <span class="text-red-500">*</span></label>
-            <select name="guest" id="guest" v-model="guestPlus" class="border border-gray-300 p-2 block mt-2 font-[inherit]">
+            <label for="guest" class="font-bold block">Are you Attending? <span class="text-red-500">*</span></label>
+            <select name="guest" id="guest" v-model="attendingGuest" class="border border-gray-300 p-2 block mt-2 font-[inherit]">
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
             </select>
@@ -51,7 +51,8 @@
             <input type="checkbox" name="confirm-terms" id="confirm-terms" v-model="confirm" class="inline-block mr-4 w-auto">
             <label for="confirm-terms" class="font-bold">Agree to the terms of guest?</label>
         </div>
-        <div>
+        <div class="my-3 mx-0">
+             <h2 class="text-base my-2 mx-0 font-bold">Are you attending? <span class="text-red-500">*</span></h2>
             <guest-control v-model="extraGuest"></guest-control>
         </div>
         <div>
@@ -73,7 +74,7 @@
                 userAge: null,
                 attendingEvent: null,
                 selectedMeal: [],
-                guestPlus: 'yes',
+                attendingGuest: 'yes',
                 confirm: false,
                 extraGuest: null,
             }
@@ -93,11 +94,14 @@
                 this.attendingEvent = null
                 console.log('Your Selected Meal? ')
                 console.log(this.selectedMeal)
-                console.log('Additional Guest? ')
-                console.log(this.guestPlus);
-                this.guestPlus = 'yes'
+                console.log(' Are You Attending? ')
+                console.log(this.attendingGuest);
+                this.attendingGuest = 'yes'
                 console.log('Confirm: ' + this.confirm)
-
+                this.confirm = false
+                console.log('Bringing A Guest?')
+                console.log(this.extraGuest)
+                
             }
         }
     }
