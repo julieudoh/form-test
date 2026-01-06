@@ -1,23 +1,23 @@
 <template>
     <form>
-        <div class="form-control">
+        <div class="text-red">
             <div>
                 <label for="first-name">First Name <span>*</span></label>
-                <input type="text" id="first-name" name="first-name">
+                <input type="text" id="first-name" name="first-name" class="border border-gray-300 p-2 "/>
             </div>
             <div>
                 <label for="last-name">Last Name <span>*</span></label>
-                <input type="text" id="last-name" name="last-name">
+                <input type="text" id="last-name" name="last-name"/>
             </div>
         </div>
         <div class="form-control">
             <label for="age">Age <span>*</span></label>
-            <input type="number" id="age" name="age">
+            <input type="number" id="age" name="age"/>
         </div>
         <div class="form-control">
             <h2>Are you attending? <span>*</span></h2>
             <div>
-                <input type="radio" name="attending" id="yes">
+                <input type="radio" name="attending" id="yes"/>
                 <label for="yes">Yes</label>
             </div>
             <div>
