@@ -1,6 +1,6 @@
 <template>
     <base-card>
-        <form @submit.prevent="submitForm" v-if="!usersPage" >
+        <form @submit.prevent="submitForm" >
             <div class="my-3 mx-0">
                 <div :class="{invalid: firstName === '' && invalidInput}">
                     <label for="first-name" class="font-bold ">First Name <span class="text-red-500">*</span></label>
@@ -66,22 +66,18 @@
                     <button class="font-[inherit] border border-solid border-[rgb(3,33,73)] bg-[rgb(3,33,73)] text-white cursor-pointer py-3 px-8 text-center rounded-[30px] ">Add Guest</button>
                 </div>
 
-                <base-button @click="showUserInformation">View Data</base-button>
             </div>
             
         </form>
-        <user-information v-if="usersPage === true"></user-information>
+        
     </base-card>
 </template>
 
 <script>
     import GuestControl from './GuestControl.vue';
-    import UserInformation from './UserInformation.vue';
-
     export default {
         components: {
             GuestControl,
-            UserInformation,
         },
         data(){
             return{
@@ -94,8 +90,8 @@
                 confirm: false,
                 gift: false,
                 invalidInput: false,
-                usersPage: false,
-                results: []
+                // usersPage: '',
+                // results: []
             }
         },
         methods: {
@@ -127,51 +123,9 @@
             }, 
 
 
-            showUserInformation(){
-                this.usersPage = true
-
-                fetch('https://rsvp-form-34302-default-rtdb.firebaseio.com/rsvpguests.json')
-                .then((Response) => {
-                    if(Response.ok){
-                        return Response.json() 
-                    }
-                 }).then(function(data){
-                    const results = [];
-                    for(const id in data) {
-                        results.push({
-                            id: id,
-                            firstname: data[id].firstname,
-                            lastname: data[id].lastname,
-                            age: data[id].age,
-                            attending:data[id].attending,
-                            extraguest: data[id].extraguest,
-                            gift: data[id].gift,
-                            confirmterms: data[id].confirmterms,
-                            meal: data[id].meal
-                        })
-                    }
-                    console.log(this.results)
-                 })
-                 //.then(function(data) {
-                //     const dataResults = []
-                //     for(const id in data){
-                //         dataResults.push({
-                //             id: id,
-                //             firstname: data[id].firstname,
-                //             lastname: data[id].lastname,
-                //             age: data[id].age,
-                //             attending: data[id].attending,
-                //             meal: data[id].meal,
-                //             extraguest: data[id].extraguest,
-                //             gift: data[id].gift,
-                //             confirmterms: data[id].confirmterms
-                //         })
-                //     }
-                //     this.results = dataResults
-                //     console.log(this.results)
-                // })
-               
-            }
+            // showUserInformationPage(){
+            //     this.usersPage = true
+            // }
             
         }
     }
