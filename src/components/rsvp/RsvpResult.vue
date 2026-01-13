@@ -6,8 +6,6 @@
         <p><span class="font-bold">Selected Meal : </span><span>{{ result.meal }}</span></p>   
         <p><span class="font-bold">Are you bringing guests?  </span><span>{{ result.extraguest }}</span></p> 
         <p><span class="font-bold">Are you bringing gift?  </span><span>{{ result.gift }}</span></p>   
-
-    
     </li>
 </template>
 

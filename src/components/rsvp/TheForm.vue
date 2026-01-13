@@ -61,12 +61,16 @@
                 <label for="confirm-terms" class="font-bold">Agree to the terms of guest?</label>
                 <p v-if="confirm === false && invalidInput" class="text-red-500">Please agree to terms!</p>
             </div>
+            <p v-if="error" class="font-bold text-red">{{ error }}</p>
+
+
             <div class="flex w-full justify-between items-center">
                 <div>
                     <button class="font-[inherit] border border-solid border-[rgb(3,33,73)] bg-[rgb(3,33,73)] text-white cursor-pointer py-3 px-8 text-center rounded-[30px] ">Add Guest</button>
                 </div>
 
             </div>
+
             
         </form>
         
@@ -90,8 +94,7 @@
                 confirm: false,
                 gift: false,
                 invalidInput: false,
-                // usersPage: '',
-                // results: []
+                error: null,
             }
         },
         methods: {
@@ -101,6 +104,8 @@
                     return
                 }
                 this.invalidInput = false
+
+                this.error = null
             
                 fetch('https://rsvp-form-34302-default-rtdb.firebaseio.com/rsvpguests.json', {
                     method: 'POST',
@@ -108,6 +113,16 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({firstname: this.firstName, lastname: this.lastName, age: this.userAge, attending: this.attendingEvent, meal: this.selectedMeal, extraguest: this.extraGuest, gift: this.gift, confirmterms: this.confirm})
+                }).then(Response => {
+                    if(Response.ok){
+                        //...
+                    } else {
+                        throw new Error ('Could not save data - try again!!')
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                    this.error = error.message
                 })
               
 
@@ -121,11 +136,6 @@
                 this.gift = false;
                 
             }, 
-
-
-            // showUserInformationPage(){
-            //     this.usersPage = true
-            // }
             
         }
     }

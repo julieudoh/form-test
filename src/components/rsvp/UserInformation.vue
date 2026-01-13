@@ -6,7 +6,10 @@
         </div>
 
         <ul class="list-none m-0 p-0">
-            <rsvp-result 
+            <p v-if="isLoading" class="mt-8 font-bold">Loading...</p>
+            <p v-else-if="!isLoading && error" class="mt-8 text-center font-bold">{{ error }}</p>
+            <p v-else-if="!isLoading && (!results || results.length === 0)" class="mt-8 text-center font-bold">There is no available data for Rvps guest - Please fill in the form.</p>
+            <rsvp-result  v-else-if="!isLoading && results && results.length > 0"
             v-for="result in results" :key="result.id" 
             :result="result"></rsvp-result>
         </ul>
@@ -20,7 +23,9 @@
         
         data(){
             return{
-                results: []
+                results: [],
+                isLoading: false,
+                error: null,
             }
         },
         components: {
@@ -28,13 +33,17 @@
         },
         methods: {
             showUserResult(){
+                this.isLoading = true;
+                this.error = null;
                 fetch('https://rsvp-form-34302-default-rtdb.firebaseio.com/rsvpguests.json')
                 .then((Response) => {
                     if(Response.ok){
                         return Response.json() 
                     }
-                 }).then((data) => {
+                })
+                .then((data) => {
                     const results = [];
+                    this.isLoading = false;
                     for(const id in data) {
                         results.push({
                             id: id,
@@ -49,7 +58,12 @@
                         })
                     }
                     this.results = results;
-                 })
+                })
+                .catch((error) => {
+                    console.log(error)
+                    this.isLoading = false
+                    this.error = 'Failed to Fetch data - Please try again later!!'
+                })
             }
         }
     }
